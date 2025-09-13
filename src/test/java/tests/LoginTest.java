@@ -42,7 +42,15 @@ public class LoginTest extends BaseTest {
         Thread.sleep(2000);
         loginpage.clickLogin();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        WebElement toastMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[contains(text(),'Successfully Logged in')]")
+        ));
+
+        // Validate toast text
+        Assert.assertEquals(toastMessage.getText(), "Successfully Logged in", "Successfully Logged in");
+        System.out.println("Toast message displayed: " + toastMessage.getText());
+
         DashboardPage dashboardPage = new DashboardPage(driver);
         wait.until(ExpectedConditions.visibilityOfElementLocated(dashboardPage.getDashboardleHeaderLocator()));
         System.out.println("Logged in Successfully.");
